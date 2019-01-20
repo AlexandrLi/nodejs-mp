@@ -1,0 +1,24 @@
+{
+  "name": "nodejs-mp",
+  "version": "1.0.0",
+  "description": "Node js mentoring program application",
+  "main": "src/app.js",
+  "scripts": {
+    "reverse": "node utils/streams.js -a reverse",
+    "transform": "node utils/streams.js -a transform",
+    "outputFile": "node utils/streams.js -a outputFile -f example.txt",
+    "convertFromFile": "node utils/streams.js -a convertFromFile -f example.csv",
+    "convertToFile": "node utils/streams.js -a convertToFile -f example.csv",
+    "cssBundler": "node utils/streams.js -a cssBundler -p ./assets/css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlexandrLi/nodejs-mp.git"
+  },
+  "author": "Alex Li <muzikant1990@gmail.com>",
+  "dependencies": {
+    "commander": "^2.19.0",
+    "split2": "^3.1.0",
+    "through2": "^3.0.0"
+  }
+}
