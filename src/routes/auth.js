@@ -37,9 +37,8 @@ passport.use(
 passport.use(
   new TwitterStrategy(
     {
-      //TODO: put real credentials once they will be provided by twitter
-      consumerKey: 'undefined',
-      consumerSecret: 'undefined',
+      consumerKey: 'tIOFk9OW1SGib0Z75k0WoOvcK',
+      consumerSecret: 'GJBjkDjdPH075qUmZKy3FVVNKf1yyg6VbBFvcJ777JbZB6pjMW',
       callbackURL: 'http://localhost:8080/auth/twitter/callback',
     },
     function(token, tokenSecret, profile, done) {
@@ -113,6 +112,16 @@ router.get('/auth/facebook', passport.authenticate('facebook'));
 router.get(
   '/auth/facebook/callback',
   passport.authenticate('facebook', {
+    successRedirect: '/api2/products',
+    failureRedirect: '/login',
+    session: false,
+  })
+);
+
+router.get('/auth/twitter', passport.authenticate('twitter'));
+router.get(
+  '/auth/twitter/callback',
+  passport.authenticate('twitter', {
     successRedirect: '/api2/products',
     failureRedirect: '/login',
     session: false,

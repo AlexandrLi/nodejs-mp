@@ -1,4 +1,5 @@
 const app = require('express')();
+const session = require('express-session');
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
@@ -10,6 +11,7 @@ const {verifyToken} = require('./middlewares');
 
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(session({secret: 'secret'}));
 app.use(passport.initialize());
 app.use((req, res, next) => {
   req.parsedCookies = req.cookies;
