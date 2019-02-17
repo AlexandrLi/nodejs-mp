@@ -8,12 +8,12 @@ const product = {
   options: [{color: 'blue'}, {size: 'XL'}],
 };
 
-const json_server = http.createServer((req, res) => {
+const jsonServer = http.createServer((req, res) => {
   res.setHeader('Content-Type', 'application/json');
   res.write(JSON.stringify(product));
   res.end();
 });
 
-json_server.listen(3002, () =>
-  console.log('json-server is listening on port 3002')
+jsonServer.listen(3002, () =>
+  console.log('jsonServer is listening on port 3002')
 );
