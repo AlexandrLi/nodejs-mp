@@ -2,7 +2,7 @@
   "name": "nodejs-mp",
   "version": "1.0.0",
   "description": "Node js mentoring program application",
-  "main": "src/app.js",
+  "main": "src/index.js",
   "scripts": {
     "start": "nodemon",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -13,6 +13,11 @@
   },
   "author": "Alex Li <muzikant1990@gmail.com>",
   "devDependencies": {
-    "nodemon": "^1.18.7"
+    "nodemon": "^1.18.10"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cookie-parser": "^1.4.4",
+    "express": "^4.16.4"
   }
 }
