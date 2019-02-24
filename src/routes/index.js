@@ -1,8 +1,28 @@
 const router = require('express').Router();
+const Sequelize = require('sequelize');
+const models = require('../models');
 
-router.get('/products', (req, res) => {
+const sequelize = new Sequelize(
+  'postgres://postgres:postgres@localhost:6543/node'
+);
+const Product = sequelize.import('../models/product.js');
+sequelize.sync();
+
+router.get('/products', async (req, res) => {
+  const products = await Product.findAll();
+  const list = products.reduce(
+    (res, el) =>
+      (res += `<li>${el.id} | ${el.name} - ${el.price || 'N/A'} (${
+        el.description
+      })</li>`),
+    ''
+  );
   res.send(
-    `<h1>List of all products</h1>
+    `
+    <h1>List of all products</h1>
+    <ul>
+    ${list}
+    </ul>
     <hr/>
     <form action="/api/products" method="POST">
     <label htmlFor="name">name</label>
@@ -14,21 +34,38 @@ router.get('/products', (req, res) => {
   );
 });
 
-router.post('/products', (req, res) => {
+router.post('/products', async (req, res) => {
   const product = req.body;
-  res.send(JSON.stringify(product));
+  await Product.insertOrUpdate(product);
+  res.redirect('/api/products');
 });
 
-router.get('/products/:id/reviews', (req, res) => {
+router.get('/products/:id/reviews', async (req, res) => {
+  const reviews = await Product.findByPk(req.params.id);
+  console.log(reviews);
+
   res.send(`List of reviews for product with id: ${req.params.id}`);
 });
 
-router.get('/products/:id', (req, res) => {
-  res.send(`Product with id: ${req.params.id}`);
+router.get('/products/:id', async (req, res) => {
+  const product = await Product.findByPk(req.params.id);
+  res.send(JSON.stringify(product));
 });
 
-router.get('/users', (req, res) => {
-  res.send('List of all users');
+router.get('/users', async (req, res) => {
+  const users = await models.User.findAll();
+  const list = users.reduce(
+    (res, el) =>
+      (res += `<li>${el.id} | ${el.firstName} ${el.lastName} - ${
+        el.email
+      }</li>`),
+    ''
+  );
+  res.send(`
+  <h1>List of all products</h1>
+  <ul>
+  ${list}
+  </ul>`);
 });
 
 module.exports = router;
