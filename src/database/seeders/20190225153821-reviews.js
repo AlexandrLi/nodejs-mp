@@ -3,28 +3,25 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert(
-      'Products',
+      'Reviews',
       [
         {
-          name: 'Pen',
-          description: 'Ball pen',
-          price: 10,
+          text: 'Review 1',
           createdAt: new Date(),
           updatedAt: new Date(),
+          productId: 1,
         },
         {
-          name: 'Pencil',
-          description: 'Graphite pencil',
-          price: 8,
+          text: 'Review 2',
           createdAt: new Date(),
           updatedAt: new Date(),
+          productId: 1,
         },
         {
-          name: 'notepad',
-          description: 'Simple notepad',
-          price: 15,
+          text: 'Review 3',
           createdAt: new Date(),
           updatedAt: new Date(),
+          productId: 1,
         },
       ],
       {}
@@ -32,6 +29,6 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.bulkDelete('Products', null, {});
+    return queryInterface.bulkDelete('Reviews', null, {});
   },
 };

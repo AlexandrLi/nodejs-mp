@@ -9,7 +9,11 @@ module.exports = (sequelize, DataTypes) => {
   );
   Review.associate = function(models) {
     // associations can be defined here
-    models.Review.belongsTo(models.Product);
+    models.Review.belongsTo(models.Product, {
+      onDelete: 'CASCADE',
+      foreignKey: 'productId',
+      targetKey: 'id',
+    });
   };
   return Review;
 };

@@ -1,12 +1,5 @@
 const router = require('express').Router();
-const Sequelize = require('sequelize');
-const models = require('../models');
-
-const sequelize = new Sequelize(
-  'postgres://postgres:postgres@localhost:6543/node'
-);
-const Product = sequelize.import('../models/product.js');
-sequelize.sync();
+const {Product, User} = require('../models');
 
 router.get('/products', async (req, res) => {
   const products = await Product.findAll();
@@ -41,10 +34,16 @@ router.post('/products', async (req, res) => {
 });
 
 router.get('/products/:id/reviews', async (req, res) => {
-  const reviews = await Product.findByPk(req.params.id);
-  console.log(reviews);
-
-  res.send(`List of reviews for product with id: ${req.params.id}`);
+  const product = await Product.findByPk(req.params.id);
+  const reviews = await product.getReviews();
+  const list = reviews.reduce(
+    (res, el) => (res += `<li>${el.id} | ${el.text}</li>`),
+    ''
+  );
+  res.send(`
+  List of reviews for product with id: ${req.params.id}
+  <ul>${list}</ul>
+  `);
 });
 
 router.get('/products/:id', async (req, res) => {
@@ -53,7 +52,7 @@ router.get('/products/:id', async (req, res) => {
 });
 
 router.get('/users', async (req, res) => {
-  const users = await models.User.findAll();
+  const users = await User.findAll();
   const list = users.reduce(
     (res, el) =>
       (res += `<li>${el.id} | ${el.firstName} ${el.lastName} - ${
