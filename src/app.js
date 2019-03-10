@@ -3,6 +3,7 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 
 const router = require('./routes');
+const City = require('./models/City');
 
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -15,6 +16,15 @@ app.use((req, res, next) => {
   req.parsedQuery = req.query;
   console.log(req.parsedQuery);
   next();
+});
+app.use('/', async (req, res) => {
+  try {
+    const cities = await City.findAll();
+    const randomCity = cities[Math.floor(Math.random() * cities.length)];
+    res.send(randomCity);
+  } catch (error) {
+    console.log(error);
+  }
 });
 app.use('/api', router);
 app.use((req, res) => {
