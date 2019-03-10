@@ -1,25 +1,27 @@
-const {getDb} = require('../database');
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-class City {
-  constructor(name, country, capital, location) {
-    this.name = name;
-    this.country = country;
-    this.capital = capital;
-    this.location = location;
-  }
+const plugins = require('./plugins');
 
-  static async findAll() {
-    try {
-      const db = getDb();
-      const cities = await db
-        .collection('cities')
-        .find()
-        .toArray();
-      return cities;
-    } catch (error) {
-      console.log(error);
-    }
-  }
-}
+const citySchema = new Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  country: {
+    type: String,
+    required: true,
+  },
+  capital: {
+    type: Boolean,
+    required: true,
+  },
+  location: {
+    lat: Number,
+    long: Number,
+  },
+});
 
-module.exports = City;
+citySchema.plugin(plugins.timestamp);
+
+module.exports = mongoose.model('City', citySchema);

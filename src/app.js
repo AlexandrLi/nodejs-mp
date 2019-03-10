@@ -17,9 +17,9 @@ app.use((req, res, next) => {
   console.log(req.parsedQuery);
   next();
 });
-app.use('/', async (req, res) => {
+app.get('/', async (req, res) => {
   try {
-    const cities = await City.findAll();
+    const cities = await City.find();
     const randomCity = cities[Math.floor(Math.random() * cities.length)];
     res.send(randomCity);
   } catch (error) {

@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Pen",
+    "description": "Simple pen",
+    "price": "5.45",
+    "reviews": ["Good pen", "Excellent pen"]
+  },
+  {
+    "name": "Pencil",
+    "description": "Simple pencil",
+    "price": "4.35",
+    "reviews": ["Bad pencil"]
+  },
+  {
+    "name": "Notebook",
+    "description": "Simple notebook",
+    "price": "2.25",
+    "reviews": ["Nothing special"]
+  }
+]
