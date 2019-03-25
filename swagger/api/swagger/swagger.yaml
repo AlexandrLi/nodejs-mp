@@ -1,0 +1,416 @@
+swagger: '2.0'
+info:
+  description: This is a node js mentoring API
+  version: 1.0.0
+  title: Simple NodeJS API
+  contact:
+    email: alexandr_li@epam.com
+
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+
+# tags are used for organizing operations
+tags:
+  - name: city
+    description: All city resources
+  - name: product
+    description: All product resources
+  - name: user
+    description: All user resources
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /cities:
+    x-swagger-router-controller: city-controller
+    get:
+      tags:
+        - city
+      summary: get list of available cities
+      operationId: getCities
+      description: |
+        Get list of all available cities
+      responses:
+        200:
+          description: list with cities
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/City'
+        default:
+          description: Error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+    post:
+      tags:
+        - city
+      summary: adds a city
+      operationId: addCity
+      description: Adds a city to the system
+      parameters:
+        - in: body
+          name: city
+          description: City item to add
+          schema:
+            $ref: '#/definitions/City'
+      responses:
+        200:
+          description: City created
+          schema:
+            $ref: '#/definitions/City'
+        default:
+          description: Error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+  /cities/{cityId}:
+    x-swagger-router-controller: city-controller
+    put:
+      tags:
+        - city
+      summary: Update an existing city
+      operationId: updateCity
+      parameters:
+        - name: cityId
+          in: path
+          description: City id to update
+          required: true
+          type: string
+          format: objectId
+        - in: body
+          name: city
+          description: City object that needs to be updated
+          required: true
+          schema:
+            $ref: '#/definitions/City'
+      responses:
+        200:
+          description: Updated city
+          schema:
+            $ref: '#/definitions/City'
+        default:
+          description: Error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+    delete:
+      tags:
+        - city
+      summary: Delete a city
+      operationId: deleteCity
+      parameters:
+        - name: cityId
+          in: path
+          description: City id to delete
+          required: true
+          type: string
+          format: objectId
+      responses:
+        200:
+          description: Deleted city
+          schema:
+            $ref: '#/definitions/City'
+        default:
+          description: Error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+  /products:
+    x-swagger-router-controller: product-controller
+    get:
+      tags:
+        - product
+      summary: get list of available products
+      operationId: getProducts
+      description: |
+        Get list of all available products
+      responses:
+        200:
+          description: list with products
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Product'
+        default:
+          description: Error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+    post:
+      tags:
+        - product
+      summary: adds a product
+      operationId: addProduct
+      description: Adds a product to the system
+      parameters:
+        - in: body
+          name: product
+          description: Product item to add
+          schema:
+            $ref: '#/definitions/Product'
+      responses:
+        200:
+          description: Product created
+          schema:
+            $ref: '#/definitions/Product'
+        default:
+          description: Error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+  /products/{productId}:
+    x-swagger-router-controller: product-controller
+    get:
+      tags:
+        - product
+      summary: Get an existing product by Id
+      operationId: getProduct
+      parameters:
+        - name: productId
+          in: path
+          description: Product id to get
+          required: true
+          type: string
+          format: objectId
+      responses:
+        200:
+          description: Fetched product
+          schema:
+            $ref: '#/definitions/Product'
+        default:
+          description: Error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+    delete:
+      tags:
+        - product
+      summary: Delete a product
+      operationId: deleteProduct
+      parameters:
+        - name: productId
+          in: path
+          description: Product id to delete
+          required: true
+          type: string
+          format: objectId
+      responses:
+        200:
+          description: Deleted product
+          schema:
+            $ref: '#/definitions/Product'
+        default:
+          description: Error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+  /products/{productId}/reviews:
+    x-swagger-router-controller: product-controller
+    get:
+      tags:
+        - product
+      summary: get list of product's reviews
+      operationId: getProductReviews
+      description: |
+        Get list of product's reviews
+      parameters:
+        - name: productId
+          in: path
+          description: Product id to get reviews
+          required: true
+          type: string
+          format: objectId
+      responses:
+        200:
+          description: list with reviews
+          schema:
+            type: array
+            items:
+              type: string
+        default:
+          description: Error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+  /users:
+    x-swagger-router-controller: user-controller
+    get:
+      tags:
+        - user
+      summary: get list of available users
+      operationId: getUsers
+      description: Get list of all available users
+      responses:
+        200:
+          description: list with users
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/User'
+        default:
+          description: Error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+  /users/{userId}:
+    x-swagger-router-controller: user-controller
+    delete:
+      tags:
+        - user
+      summary: Delete a user
+      operationId: deleteUser
+      parameters:
+        - name: userId
+          in: path
+          description: User id to delete
+          required: true
+          type: string
+          format: objectId
+      responses:
+        200:
+          description: Deleted user
+          schema:
+            $ref: '#/definitions/User'
+        default:
+          description: Error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+  /swagger:
+    x-swagger-pipe: swagger_raw
+definitions:
+  City:
+    type: object
+    required:
+      - name
+      - country
+    properties:
+      name:
+        type: string
+        example: 'Karaganda'
+      country:
+        type: string
+        example: 'Kazakhstan'
+      capital:
+        type: boolean
+        example: false
+      lastModifiedDate:
+        type: string
+        format: date-time
+        example: '2019-03-10T12:49:48.021+00:00'
+      location:
+        type: object
+        properties:
+          lat:
+            type: number
+            example: 49.83333
+          long:
+            type: number
+            example: 49.83333
+  Product:
+    type: object
+    required:
+      - name
+      - price
+    properties:
+      name:
+        type: string
+        example: 'Pen'
+      description:
+        type: string
+        example: 'Simple pen'
+      price:
+        type: number
+        example: 5.45
+      lastModifiedDate:
+        type: string
+        format: date-time
+        example: '2019-03-10T12:49:48.021+00:00'
+      reviews:
+        type: array
+        items:
+          type: string
+          example: 'Good pen'
+  User:
+    type: object
+    required:
+      - firstName
+      - lastName
+      - email
+    properties:
+      firstName:
+        type: string
+        example: 'John'
+      lastName:
+        type: string
+        example: 'Doe'
+      email:
+        type: string
+        example: 'test@test.com'
+      lastModifiedDate:
+        type: string
+        format: date-time
+        example: '2019-03-10T12:49:48.021+00:00'
+  ErrorResponse:
+    required:
+      - message
+    properties:
+      message:
+        type: string
+# Added by API Auto Mocking Plugin
+host: localhost:10010
+basePath: /api
+schemes:
+  - http
+# swagger: "2.0"
+# info:
+#   version: "0.0.1"
+#   title: Hello World App
+# # during dev, should point to your local machine
+# host: localhost:10010
+# # basePath prefixes all resource paths
+# basePath: /
+# #
+# schemes:
+#   # tip: remove http to make production-grade
+#   - http
+#   - https
+# # format of bodies a client can send (Content-Type)
+# consumes:
+#   - application/json
+# # format of the responses to the client (Accepts)
+# produces:
+#   - application/json
+# paths:
+#   /hello:
+#     # binds a127 app logic to a route
+#     x-swagger-router-controller: hello_world
+#     get:
+#       description: Returns 'Hello' to the caller
+#       # used as the method name of the controller
+#       operationId: hello
+#       parameters:
+#         - name: name
+#           in: query
+#           description: The name of the person to whom to say hello
+#           required: false
+#           type: string
+#       responses:
+#         "200":
+#           description: Success
+#           schema:
+#             # a pointer to a definition
+#             $ref: "#/definitions/HelloWorldResponse"
+#         # responses may fall through to errors
+#         default:
+#           description: Error
+#           schema:
+#             $ref: "#/definitions/ErrorResponse"
+#   /swagger:
+#     x-swagger-pipe: swagger_raw
+# # complex objects have schema definitions
+# definitions:
+#   HelloWorldResponse:
+#     required:
+#       - message
+#     properties:
+#       message:
+#         type: string
+#   ErrorResponse:
+#     required:
+#       - message
+#     properties:
+#       message:
+#         type: string

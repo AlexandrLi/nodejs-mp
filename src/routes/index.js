@@ -66,15 +66,6 @@ router.get('/products/:id/reviews', async (req, res) => {
 });
 
 router.get('/products/:id', async (req, res) => {
-  try {
-    const product = await Product.findById(req.params.id);
-    res.send(JSON.stringify(product));
-  } catch (error) {
-    res.send(error);
-  }
-});
-
-router.get('/products/:id', async (req, res) => {
   const product = await Product.findByPk(req.params.id);
   res.send(JSON.stringify(product));
 });
